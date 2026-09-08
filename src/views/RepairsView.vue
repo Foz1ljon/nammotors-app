@@ -5,6 +5,7 @@
   import IconEdit from "~icons/ph/pencil-simple-duotone";
   import IconDelete from "~icons/ph/trash-duotone";
   import { message, Modal } from "ant-design-vue";
+  import type { SelectValue } from "ant-design-vue/es/select";
   import { useRepairsStore, repairStatusMeta, REPAIR_STATUSES, type RepairOrder, type RepairStatus } from "@/stores/repairs";
   import { useIsMobile } from "@/composables/useIsMobile";
   import TableActions, { type RowAction } from "@/components/TableActions.vue";
@@ -146,7 +147,7 @@
               size="small"
               style="width: 150px"
               :options="REPAIR_STATUSES.map((s) => ({ value: s, label: t(repairStatusMeta[s].label) }))"
-              @change="(val) => handleStatusChange(record, val as RepairStatus)"
+              @change="(val: SelectValue) => handleStatusChange(record, val as RepairStatus)"
             >
               <template #suffixIcon><a-tag :color="repairStatusMeta[record.status as RepairStatus].color" style="margin: 0" /></template>
             </a-select>
