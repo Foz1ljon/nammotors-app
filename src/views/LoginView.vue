@@ -18,6 +18,7 @@ import {
   ThunderboltFilled,
 } from '@ant-design/icons-vue'
 import type { FormInstance } from 'ant-design-vue'
+import type { MenuInfo } from 'ant-design-vue/es/menu/src/interface'
 import { useAuthStore } from '@/stores/auth'
 import { useThemeStore } from '@/stores/theme'
 import { useLocaleStore } from '@/stores/locale'
@@ -57,6 +58,10 @@ async function onSubmit() {
   }
 }
 
+function handleLocaleClick({ key }: MenuInfo) {
+  localeStore.setLocale(key as 'latin' | 'cyrillic')
+}
+
 function fillDemo(username: string, password: string) {
   form.username = username
   form.password = password
@@ -85,7 +90,7 @@ const demoAccounts = [
           <TranslationOutlined />
         </button>
         <template #overlay>
-          <a-menu @click="({ key }) => localeStore.setLocale(key as 'latin' | 'cyrillic')">
+          <a-menu @click="handleLocaleClick">
             <a-menu-item key="latin">{{ t('lang.latin') }}</a-menu-item>
             <a-menu-item key="cyrillic">{{ t('lang.cyrillic') }}</a-menu-item>
           </a-menu>
