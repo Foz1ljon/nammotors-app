@@ -52,7 +52,7 @@ export default {
     references: "Ro'yxatlar",
     models: 'Modellar',
     warehouses: 'Omborlar',
-    suppliers: 'Yetkazib beruvchilar',
+    suppliers: 'Xaridlar',
     employees: 'Xodimlar',
     logs: 'Amallar tarixi',
   },
@@ -249,7 +249,6 @@ export default {
     deleted: "Xodim o'chirildi",
   },
   permission: {
-    dashboard: 'Bosh sahifa',
     productsTayyor: 'Tayyor mahsulotlar',
     productsYarim: 'Yarim tayyor mahsulotlar',
     productsXomashyo: 'Xomashyolar',

@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import { computeNextId, loadPersisted, persist } from '@/utils/persist'
 
 export interface Warehouse {
   id: string
@@ -11,10 +12,12 @@ function id() {
   return `WH${String(nextId++).padStart(3, '0')}`
 }
 
-const seedNames = ['Ombor-1', 'Ombor-2', 'Ombor-3', 'Sex-2', 'Sex-3']
+const seedNames = ['Ombor-1', 'Ombor-2', 'Ombor-3', 'Ombor-4', 'Sex-1', 'Sex-2', 'Sex-3', 'Filial-1']
 
 export const useWarehousesStore = defineStore('warehouses', () => {
-  const items = ref<Warehouse[]>(seedNames.map((name) => ({ id: id(), name })))
+  const items = ref<Warehouse[]>(loadPersisted('warehouses', seedNames.map((name) => ({ id: id(), name }))))
+  nextId = computeNextId(items.value, 'WH')
+  persist('warehouses', items)
 
   function addWarehouse(name: string): Warehouse {
     const trimmed = name.trim()

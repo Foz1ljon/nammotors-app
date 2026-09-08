@@ -6,6 +6,7 @@ import {
   CheckCircleOutlined,
   DeploymentUnitOutlined,
   GoldOutlined,
+  FolderOutlined,
   DatabaseOutlined,
   ShopOutlined,
   ShoppingOutlined,
@@ -79,7 +80,7 @@ function handleMenuClick({ key }: MenuInfo) {
       </a-sub-menu>
 
       <a-sub-menu v-if="auth.hasPermission('models') || auth.hasPermission('warehouses')" key="spravochnik">
-        <template #icon><DatabaseOutlined /></template>
+        <template #icon><FolderOutlined /></template>
         <template #title>{{ $t('sidebar.references') }}</template>
         <a-menu-item v-if="auth.hasPermission('models')" key="models">
           <template #icon><DatabaseOutlined /></template>

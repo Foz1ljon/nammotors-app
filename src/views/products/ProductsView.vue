@@ -356,9 +356,26 @@ watch(
 
     <a-card :bordered="false" style="margin-top: 16px">
       <a-table :data-source="items" row-key="id" size="middle" :pagination="{ pageSize: 10 }">
-        <a-table-column :title="t('products.colName')" data-index="name" />
+        <a-table-column :title="t('products.colImage')" :width="64">
+          <template #default="{ record }">
+            <a-avatar v-if="record.image" shape="square" :size="40" :src="record.image" />
+            <a-avatar v-else shape="square" :size="40" class="no-image">
+              <template #icon><PictureOutlined /></template>
+            </a-avatar>
+          </template>
+        </a-table-column>
+        <a-table-column :title="t('products.colName')" data-index="name">
+          <template #default="{ record }">
+            <div class="name-cell">
+              <span class="name-text">{{ record.name }}</span>
+              <span class="name-code">{{ record.code }}<template v-if="record.model"> · {{ record.model }}</template></span>
+            </div>
+          </template>
+        </a-table-column>
         <a-table-column :title="t('products.colQuantity')" :width="140">
-          <template #default="{ record }">{{ fmt(record.quantity) }} {{ record.unit }}</template>
+          <template #default="{ record }">
+            <a-tag :color="statusTag(store.statusOf(record)).color">{{ fmt(record.quantity) }} {{ record.unit }}</a-tag>
+          </template>
         </a-table-column>
         <a-table-column :title="t('products.colPrice')" :width="160">
           <template #default="{ record }">{{ fmt(record.price) }}</template>
@@ -671,6 +688,22 @@ watch(
 .no-image {
   background: var(--color-track);
   color: var(--color-text-faint);
+}
+
+.name-cell {
+  display: flex;
+  flex-direction: column;
+}
+
+.name-text {
+  font-size: 13px;
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.name-code {
+  font-size: 12px;
+  color: var(--color-text-muted);
 }
 
 .image-field {

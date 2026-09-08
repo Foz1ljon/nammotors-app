@@ -11,6 +11,11 @@ import {
   BulbOutlined,
   BulbFilled,
   TranslationOutlined,
+  CrownOutlined,
+  ShopOutlined,
+  ToolOutlined,
+  ShoppingOutlined,
+  ThunderboltFilled,
 } from '@ant-design/icons-vue'
 import type { FormInstance } from 'ant-design-vue'
 import { useAuthStore } from '@/stores/auth'
@@ -63,6 +68,13 @@ const features = [
   { icon: DeploymentUnitOutlined, key: 'auth.featureSemi' },
   { icon: GoldOutlined, key: 'auth.featureRaw' },
 ]
+
+const demoAccounts = [
+  { username: 'admin', password: 'admin123', icon: CrownOutlined, roleKey: 'auth.roleAdmin' },
+  { username: 'ombor', password: 'ombor123', icon: ShopOutlined, roleKey: 'auth.roleWarehouse' },
+  { username: 'ishchi', password: 'ishchi123', icon: ToolOutlined, roleKey: 'auth.roleLimited' },
+  { username: 'metallurg', password: 'metall123', icon: ShoppingOutlined, roleKey: 'auth.roleSupplier' },
+]
 </script>
 
 <template>
@@ -90,6 +102,9 @@ const features = [
 
     <div class="login-panel">
       <div class="brand-panel">
+        <div class="brand-dotgrid"></div>
+        <ThunderboltFilled class="brand-watermark" />
+
         <div class="brand-panel-inner">
           <div class="login-brand">
             <div class="login-logo">NM</div>
@@ -103,12 +118,13 @@ const features = [
 
           <ul class="brand-features">
             <li v-for="f in features" :key="f.key">
-              <component :is="f.icon" />
+              <span class="feature-icon"><component :is="f.icon" /></span>
               <span>{{ t(f.key) }}</span>
             </li>
           </ul>
         </div>
         <div class="brand-glow"></div>
+        <div class="brand-glow brand-glow-2"></div>
       </div>
 
       <div class="form-panel">
@@ -161,17 +177,18 @@ const features = [
           <a-divider class="login-divider">{{ t('auth.demoAccounts') }}</a-divider>
 
           <div class="demo-chips">
-            <button type="button" class="demo-chip" @click="fillDemo('admin', 'admin123')">
-              <b>admin</b><span>{{ t('auth.roleAdmin') }}</span>
-            </button>
-            <button type="button" class="demo-chip" @click="fillDemo('ombor', 'ombor123')">
-              <b>ombor</b><span>{{ t('auth.roleWarehouse') }}</span>
-            </button>
-            <button type="button" class="demo-chip" @click="fillDemo('ishchi', 'ishchi123')">
-              <b>ishchi</b><span>{{ t('auth.roleLimited') }}</span>
-            </button>
-            <button type="button" class="demo-chip" @click="fillDemo('metallurg', 'metall123')">
-              <b>metallurg</b><span>{{ t('auth.roleSupplier') }}</span>
+            <button
+              v-for="d in demoAccounts"
+              :key="d.username"
+              type="button"
+              class="demo-chip"
+              @click="fillDemo(d.username, d.password)"
+            >
+              <span class="demo-chip-icon"><component :is="d.icon" /></span>
+              <span class="demo-chip-text">
+                <b>{{ d.username }}</b>
+                <span>{{ t(d.roleKey) }}</span>
+              </span>
             </button>
           </div>
 
@@ -240,6 +257,18 @@ const features = [
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 30px 70px rgba(6, 26, 44, 0.22);
+  animation: panel-in 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .brand-panel {
@@ -256,6 +285,25 @@ const features = [
   z-index: 1;
 }
 
+.brand-dotgrid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1.5px, transparent 1.5px);
+  background-size: 22px 22px;
+  mask-image: radial-gradient(circle at 30% 20%, #000 0%, transparent 75%);
+  -webkit-mask-image: radial-gradient(circle at 30% 20%, #000 0%, transparent 75%);
+}
+
+.brand-watermark {
+  position: absolute;
+  right: -30px;
+  top: -30px;
+  font-size: 220px;
+  color: rgba(255, 255, 255, 0.04);
+  transform: rotate(18deg);
+  pointer-events: none;
+}
+
 .brand-glow {
   position: absolute;
   width: 340px;
@@ -264,6 +312,29 @@ const features = [
   background: radial-gradient(circle, rgba(242, 151, 29, 0.25) 0%, rgba(242, 151, 29, 0) 70%);
   bottom: -120px;
   right: -100px;
+  animation: glow-pulse 6s ease-in-out infinite;
+}
+
+.brand-glow-2 {
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle, rgba(14, 92, 151, 0.35) 0%, rgba(14, 92, 151, 0) 70%);
+  top: -80px;
+  left: -80px;
+  bottom: auto;
+  right: auto;
+  animation-delay: 2s;
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
 }
 
 .brand-heading {
@@ -291,8 +362,20 @@ const features = [
   font-size: 14px;
 }
 
-.brand-features li :deep(svg) {
-  font-size: 16px;
+.feature-icon {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(242, 151, 29, 0.16);
+  border: 1px solid rgba(242, 151, 29, 0.25);
+}
+
+.feature-icon :deep(svg) {
+  font-size: 15px;
   color: #f2971d;
 }
 
@@ -400,38 +483,61 @@ const features = [
 }
 
 .demo-chips {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
 
 .demo-chip {
-  flex: 1;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 2px;
-  padding: 8px 12px;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
   border: 1px solid var(--color-border);
-  border-radius: 8px;
+  border-radius: 10px;
   background: var(--color-surface-alt);
   cursor: pointer;
-  transition: border-color 0.15s ease, background 0.15s ease;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
   text-align: left;
 }
 
 .demo-chip:hover {
   border-color: #0e5c97;
   background: rgba(14, 92, 151, 0.12);
+  transform: translateY(-1px);
 }
 
-.demo-chip b {
+.demo-chip-icon {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(14, 92, 151, 0.12);
+  color: #0e5c97;
+  font-size: 14px;
+}
+
+.demo-chip-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.demo-chip-text b {
   font-size: 12px;
   color: var(--color-text);
 }
 
-.demo-chip span {
+.demo-chip-text span {
   font-size: 11px;
   color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .login-footer {

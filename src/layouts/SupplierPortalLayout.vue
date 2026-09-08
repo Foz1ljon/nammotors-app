@@ -36,7 +36,9 @@ function handleLogout() {
 
       <div class="header-right">
         <a-dropdown trigger="click">
-          <TranslationOutlined class="header-icon" />
+          <button type="button" class="icon-btn">
+            <TranslationOutlined class="header-icon" />
+          </button>
           <template #overlay>
             <a-menu @click="handleLocaleClick">
               <a-menu-item key="latin">{{ t('lang.latin') }}</a-menu-item>
@@ -62,7 +64,9 @@ function handleLogout() {
         </div>
 
         <a-tooltip :title="t('header.logout')">
-          <LogoutOutlined class="header-icon" @click="handleLogout" />
+          <button type="button" class="icon-btn" @click="handleLogout">
+            <LogoutOutlined class="header-icon" />
+          </button>
         </a-tooltip>
       </div>
     </a-layout-header>
@@ -128,9 +132,30 @@ function handleLogout() {
 }
 
 .header-icon {
-  font-size: 18px;
+  font-size: 17px;
   color: var(--color-text-secondary);
   cursor: pointer;
+}
+
+.icon-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.icon-btn:hover {
+  background: var(--color-surface-alt);
+}
+
+.icon-btn:hover .header-icon {
+  color: var(--color-primary, #0e5c97);
 }
 
 .theme-switch {

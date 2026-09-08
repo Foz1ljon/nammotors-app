@@ -52,7 +52,7 @@ export default {
     references: 'Рўйхатлар',
     models: 'Моделлар',
     warehouses: 'Омборлар',
-    suppliers: 'Етказиб берувчилар',
+    suppliers: 'Харидлар',
     employees: 'Ходимлар',
     logs: 'Амаллар тарихи',
   },
@@ -249,7 +249,6 @@ export default {
     deleted: 'Ходим ўчирилди',
   },
   permission: {
-    dashboard: 'Бош саҳифа',
     productsTayyor: 'Тайёр маҳсулотлар',
     productsYarim: 'Ярим тайёр маҳсулотлар',
     productsXomashyo: 'Хомашёлар',

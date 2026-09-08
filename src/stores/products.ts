@@ -1,5 +1,6 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
+import { computeNextId, loadPersisted, persist } from '@/utils/persist'
 
 export type ProductCategory = 'tayyor' | 'yarim' | 'xomashyo'
 
@@ -56,10 +57,29 @@ const seed: Omit<Product, 'id'>[] = [
   { code: 'XM-305', name: 'Podshipnik 6205', image: '', model: '', category: 'xomashyo', unit: 'dona', quantity: 640, minStock: 200, price: 24000, warehouse: 'Ombor-2', updatedAt: '2026-09-01' },
   { code: 'XM-306', name: 'Alyuminiy quyma qorishma', image: '', model: '', category: 'xomashyo', unit: 'kg', quantity: 410, minStock: 150, price: 32500, warehouse: 'Ombor-3', updatedAt: '2026-09-04' },
   { code: 'XM-307', name: 'Izolyatsion lak', image: '', model: '', category: 'xomashyo', unit: 'litr', quantity: 0, minStock: 40, price: 68000, warehouse: 'Ombor-2', updatedAt: '2026-08-30' },
+  { code: 'XM-308', name: 'Payvandlash simi (Sv-08)', image: '', model: '', category: 'xomashyo', unit: 'kg', quantity: 320, minStock: 100, price: 28000, warehouse: 'Ombor-4', updatedAt: '2026-09-07' },
+  { code: 'XM-309', name: 'Emallangan mis sim (0.5mm)', image: '', model: '', category: 'xomashyo', unit: 'kg', quantity: 90, minStock: 120, price: 105000, warehouse: 'Ombor-3', updatedAt: '2026-09-06' },
+  { code: 'XM-310', name: "Bo'yoq (kislotaga chidamli)", image: '', model: '', category: 'xomashyo', unit: 'litr', quantity: 55, minStock: 30, price: 84000, warehouse: 'Ombor-2', updatedAt: '2026-09-05' },
+  { code: 'XM-311', name: "Rezina prokladka to'plami", image: '', model: '', category: 'xomashyo', unit: 'dona', quantity: 480, minStock: 150, price: 6500, warehouse: 'Ombor-4', updatedAt: '2026-09-07' },
+
+  // Yana tayyor mahsulotlar
+  { code: 'TM-107', name: 'Elektr dvigateli 5A 132M4', image: '', model: '5A', kvt: 11, rpm: 1460, category: 'tayyor', unit: 'dona', quantity: 19, minStock: 10, price: 3200000, warehouse: 'Ombor-1', updatedAt: '2026-09-07' },
+  { code: 'TM-108', name: 'Nasos agregati K 100-65-200', image: '', model: 'K', kvt: 18.5, rpm: 2900, category: 'tayyor', unit: 'dona', quantity: 6, minStock: 8, price: 5850000, warehouse: 'Ombor-4', updatedAt: '2026-09-06' },
+  { code: 'TM-109', name: 'Ventilyator VVN-5', image: '', model: 'VVN', kvt: 7.5, rpm: 1450, category: 'tayyor', unit: 'dona', quantity: 14, minStock: 6, price: 2100000, warehouse: 'Filial-1', updatedAt: '2026-09-05' },
+  { code: 'TM-110', name: 'Reduktor BM-50', image: '', model: 'BM', rpm: 1000, category: 'tayyor', unit: 'dona', quantity: 27, minStock: 10, price: 1420000, warehouse: 'Ombor-2', updatedAt: '2026-09-07' },
+  { code: 'TM-111', name: 'Kompressor motori KM-2.2', image: '', model: 'KM', kvt: 2.2, rpm: 2850, category: 'tayyor', unit: 'dona', quantity: 0, minStock: 8, price: 890000, warehouse: 'Ombor-3', updatedAt: '2026-09-04' },
+
+  // Yana yarim tayyor
+  { code: 'YT-206', name: 'Val zagotovkasi (tokarlik)', image: '', model: '5A', category: 'yarim', unit: 'dona', quantity: 22, minStock: 15, price: 380000, warehouse: 'Sex-1', updatedAt: '2026-09-06' },
+  { code: 'YT-207', name: "Podshipnik uyasi (payvandlangan)", image: '', model: 'K', category: 'yarim', unit: 'dona', quantity: 40, minStock: 20, price: 210000, warehouse: 'Sex-2', updatedAt: '2026-09-05' },
+  { code: 'YT-208', name: "Ventilyator qanotlari yig'indisi", image: '', model: 'VVN', category: 'yarim', unit: 'dona', quantity: 8, minStock: 12, price: 260000, warehouse: 'Sex-1', updatedAt: '2026-09-07' },
+  { code: 'YT-209', name: "Korpus qopqog'i (bo'yalmagan)", image: '', model: 'BM', category: 'yarim', unit: 'dona', quantity: 33, minStock: 18, price: 175000, warehouse: 'Sex-3', updatedAt: '2026-09-04' },
 ]
 
 export const useProductsStore = defineStore('products', () => {
-  const items = ref<Product[]>(seed.map((p) => ({ ...p, id: id() })))
+  const items = ref<Product[]>(loadPersisted('products', seed.map((p) => ({ ...p, id: id() }))))
+  nextId = computeNextId(items.value, 'P')
+  persist('products', items)
 
   function byCategory(category: ProductCategory) {
     return computed(() => items.value.filter((p) => p.category === category))

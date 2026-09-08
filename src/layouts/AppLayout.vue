@@ -142,7 +142,9 @@ function handleLocaleClick({ key }: MenuInfo) {
 
         <div class="header-right">
           <a-dropdown trigger="click">
-            <TranslationOutlined class="header-icon" />
+            <button type="button" class="icon-btn">
+              <TranslationOutlined class="header-icon" />
+            </button>
             <template #overlay>
               <a-menu @click="handleLocaleClick">
                 <a-menu-item key="latin">{{ t('lang.latin') }}</a-menu-item>
@@ -174,11 +176,9 @@ function handleLocaleClick({ key }: MenuInfo) {
               <div class="notif-list">
                 <div v-if="!notifications.length" class="notif-empty">{{ t('header.noNotifications') }}</div>
                 <div v-for="n in notifications" :key="n.id" class="notif-item" @click="goToNotification(n)">
-                  <component
-                    :is="productsStore.statusOf(n) === 'tugagan' ? CloseCircleOutlined : WarningOutlined"
-                    class="notif-icon"
-                    :class="productsStore.statusOf(n)"
-                  />
+                  <span class="notif-icon-badge" :class="productsStore.statusOf(n)">
+                    <component :is="productsStore.statusOf(n) === 'tugagan' ? CloseCircleOutlined : WarningOutlined" />
+                  </span>
                   <div class="notif-body">
                     <div class="notif-name">{{ n.name }}</div>
                     <div class="notif-meta">
@@ -188,9 +188,11 @@ function handleLocaleClick({ key }: MenuInfo) {
                 </div>
               </div>
             </template>
-            <a-badge :count="notifications.length" size="small" class="header-icon-wrap">
-              <BellOutlined class="header-icon" />
-            </a-badge>
+            <button type="button" class="icon-btn">
+              <a-badge :count="notifications.length" size="small">
+                <BellOutlined class="header-icon" />
+              </a-badge>
+            </button>
           </a-popover>
 
           <a-dropdown>
@@ -270,9 +272,30 @@ function handleLocaleClick({ key }: MenuInfo) {
 }
 
 .header-icon {
-  font-size: 18px;
+  font-size: 17px;
   color: var(--color-text-secondary);
   cursor: pointer;
+}
+
+.icon-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.icon-btn:hover {
+  background: var(--color-surface-alt);
+}
+
+.icon-btn:hover .header-icon {
+  color: var(--color-primary, #0e5c97);
 }
 
 .theme-switch {
@@ -331,18 +354,26 @@ function handleLocaleClick({ key }: MenuInfo) {
   background: var(--color-surface-alt);
 }
 
-.notif-icon {
-  font-size: 16px;
-  margin-top: 2px;
-  flex: 0 0 auto;
+.notif-icon-badge {
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  margin-top: 1px;
 }
 
-.notif-icon.tugagan {
+.notif-icon-badge.tugagan {
   color: #e0483e;
+  background: rgba(224, 72, 62, 0.12);
 }
 
-.notif-icon.kam {
+.notif-icon-badge.kam {
   color: #f2971d;
+  background: rgba(242, 151, 29, 0.14);
 }
 
 .notif-name {

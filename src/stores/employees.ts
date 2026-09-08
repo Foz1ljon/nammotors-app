@@ -1,8 +1,8 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import { computeNextId, loadPersisted, persist } from '@/utils/persist'
 
 export type PermissionKey =
-  | 'dashboard'
   | 'products.tayyor'
   | 'products.yarim'
   | 'products.xomashyo'
@@ -14,7 +14,6 @@ export type PermissionKey =
 
 // Values are i18n message keys (see src/i18n/locales) — resolve with t() at the call site.
 export const permissionMeta: Record<PermissionKey, string> = {
-  dashboard: 'permission.dashboard',
   'products.tayyor': 'permission.productsTayyor',
   'products.yarim': 'permission.productsYarim',
   'products.xomashyo': 'permission.productsXomashyo',
@@ -59,7 +58,7 @@ const seed: Omit<Employee, 'id'>[] = [
     password: 'ombor123',
     fullName: 'Ombor mudiri',
     role: 'Ombor mudiri',
-    permissions: ['dashboard', 'products.tayyor', 'products.yarim', 'products.xomashyo', 'warehouses', 'models', 'suppliers'],
+    permissions: ['products.tayyor', 'products.yarim', 'products.xomashyo', 'warehouses', 'models', 'suppliers'],
     warehouse: 'Ombor-1',
     active: true,
   },
@@ -68,14 +67,52 @@ const seed: Omit<Employee, 'id'>[] = [
     password: 'ishchi123',
     fullName: 'Ishlab chiqarish ishchisi',
     role: 'Ishlab chiqarish ishchisi',
-    permissions: ['dashboard', 'products.yarim'],
+    permissions: ['products.yarim'],
     warehouse: 'Sex-3',
     active: true,
+  },
+  {
+    username: 'dilnoza',
+    password: 'dilnoza123',
+    fullName: 'Dilnoza Yusupova',
+    role: 'Buxgalter',
+    permissions: ['products.tayyor', 'products.yarim', 'products.xomashyo', 'logs'],
+    warehouse: '',
+    active: true,
+  },
+  {
+    username: 'sardor',
+    password: 'sardor123',
+    fullName: "Sardor To'rayev",
+    role: 'Ombor-2 mudiri',
+    permissions: ['products.tayyor', 'products.xomashyo', 'warehouses'],
+    warehouse: 'Ombor-2',
+    active: true,
+  },
+  {
+    username: 'gulnora',
+    password: 'gulnora123',
+    fullName: 'Gulnora Rashidova',
+    role: 'Sex-2 texnologi',
+    permissions: ['products.yarim', 'models'],
+    warehouse: 'Sex-2',
+    active: true,
+  },
+  {
+    username: 'jasur',
+    password: 'jasur123',
+    fullName: 'Jasur Ergashev',
+    role: 'Sotuv menejeri',
+    permissions: ['products.tayyor', 'suppliers'],
+    warehouse: 'Filial-1',
+    active: false,
   },
 ]
 
 export const useEmployeesStore = defineStore('employees', () => {
-  const items = ref<Employee[]>(seed.map((e) => ({ ...e, id: id() })))
+  const items = ref<Employee[]>(loadPersisted('employees', seed.map((e) => ({ ...e, id: id() }))))
+  nextId = computeNextId(items.value, 'E')
+  persist('employees', items)
 
   function findByCredentials(username: string, password: string) {
     const uname = username.trim().toLowerCase()

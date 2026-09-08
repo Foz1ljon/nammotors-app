@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { ShoppingCartOutlined } from '@ant-design/icons-vue'
+import { ShoppingOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 import { useSupplierProductsStore, type SupplierProduct } from '@/stores/supplierProducts'
 import { useSuppliersStore } from '@/stores/suppliers'
@@ -96,7 +96,7 @@ function handleBuyOk() {
               <template #default="{ record }">
                 <a-tooltip :title="t('supplierCatalog.buyTooltip')">
                   <a-button type="text" size="small" :disabled="record.quantity <= 0" @click="openBuyModal(record)">
-                    <template #icon><ShoppingCartOutlined /></template>
+                    <template #icon><ShoppingOutlined /></template>
                   </a-button>
                 </a-tooltip>
               </template>

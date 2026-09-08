@@ -1,6 +1,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import type { ProductCategory } from './products'
+import { computeNextId, loadPersisted, persist } from '@/utils/persist'
 
 export type LogAction = 'added' | 'sold' | 'updated' | 'deleted' | 'transferred'
 
@@ -182,10 +183,54 @@ const seed: Omit<LogEntry, 'id'>[] = [
     category: 'tayyor',
     quantity: 3,
   },
+  {
+    timestamp: daysAgo(6, 12, 40),
+    username: 'sardor',
+    userFullName: "Sardor To'rayev",
+    action: 'added',
+    productCode: 'TM-107',
+    productName: 'Elektr dvigateli 5A 132M4',
+    category: 'tayyor',
+    quantity: 19,
+  },
+  {
+    timestamp: daysAgo(5, 9, 50),
+    username: 'gulnora',
+    userFullName: 'Gulnora Rashidova',
+    action: 'added',
+    productCode: 'YT-208',
+    productName: "Ventilyator qanotlari yig'indisi",
+    category: 'yarim',
+    quantity: 8,
+  },
+  {
+    timestamp: daysAgo(3, 16, 15),
+    username: 'dilnoza',
+    userFullName: 'Dilnoza Yusupova',
+    action: 'sold',
+    productCode: 'TM-111',
+    productName: 'Kompressor motori KM-2.2',
+    category: 'tayyor',
+    quantity: 5,
+  },
+  {
+    timestamp: daysAgo(1, 14, 5),
+    username: 'sardor',
+    userFullName: "Sardor To'rayev",
+    action: 'transferred',
+    productCode: 'XM-308',
+    productName: 'Payvandlash simi (Sv-08)',
+    category: 'xomashyo',
+    quantity: 80,
+    fromWarehouse: 'Ombor-4',
+    toWarehouse: 'Ombor-2',
+  },
 ]
 
 export const useActivityLogStore = defineStore('activityLog', () => {
-  const entries = ref<LogEntry[]>(seed.map((e) => ({ ...e, id: id() })))
+  const entries = ref<LogEntry[]>(loadPersisted('activityLog', seed.map((e) => ({ ...e, id: id() }))))
+  nextId = computeNextId(entries.value, 'L')
+  persist('activityLog', entries)
 
   function record(payload: Omit<LogEntry, 'id' | 'timestamp'>) {
     entries.value.unshift({

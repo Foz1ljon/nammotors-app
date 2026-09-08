@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import { computeNextId, loadPersisted, persist } from '@/utils/persist'
 
 export interface Supplier {
   id: string
@@ -25,10 +26,36 @@ const seed: Omit<Supplier, 'id'>[] = [
     phone: '+998 90 123 45 67',
     active: true,
   },
+  {
+    username: 'poltex',
+    password: 'poltex123',
+    companyName: "Po'lat Tex Servis MChJ",
+    contactPerson: 'Bekzod Yoldoshev',
+    phone: '+998 91 234 56 78',
+    active: true,
+  },
+  {
+    username: 'elektrosim',
+    password: 'elektro123',
+    companyName: "ElektroSim Ta'minot",
+    contactPerson: 'Malika Nazarova',
+    phone: '+998 93 345 67 89',
+    active: true,
+  },
+  {
+    username: 'alyumkuyma',
+    password: 'alyum123',
+    companyName: "Alyumkuyma Ishlab Chiqarish",
+    contactPerson: "G'olib Sharipov",
+    phone: '+998 97 456 78 90',
+    active: false,
+  },
 ]
 
 export const useSuppliersStore = defineStore('suppliers', () => {
-  const items = ref<Supplier[]>(seed.map((s) => ({ ...s, id: id() })))
+  const items = ref<Supplier[]>(loadPersisted('suppliers', seed.map((s) => ({ ...s, id: id() }))))
+  nextId = computeNextId(items.value, 'S')
+  persist('suppliers', items)
 
   function findByCredentials(username: string, password: string) {
     const uname = username.trim().toLowerCase()
