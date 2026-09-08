@@ -19,7 +19,7 @@ function id() {
 
 const seed: Omit<Supplier, 'id'>[] = [
   {
-    username: 'metallurg',
+    username: 'metallurg@ta-minot.uz',
     password: 'metall123',
     companyName: "Metallurg Ta'minot MChJ",
     contactPerson: 'Aziz Karimov',
@@ -27,7 +27,7 @@ const seed: Omit<Supplier, 'id'>[] = [
     active: true,
   },
   {
-    username: 'poltex',
+    username: 'poltex@poltex-servis.uz',
     password: 'poltex123',
     companyName: "Po'lat Tex Servis MChJ",
     contactPerson: 'Bekzod Yoldoshev',
@@ -35,7 +35,7 @@ const seed: Omit<Supplier, 'id'>[] = [
     active: true,
   },
   {
-    username: 'elektrosim',
+    username: 'elektrosim@elektrosim.uz',
     password: 'elektro123',
     companyName: "ElektroSim Ta'minot",
     contactPerson: 'Malika Nazarova',
@@ -43,7 +43,7 @@ const seed: Omit<Supplier, 'id'>[] = [
     active: true,
   },
   {
-    username: 'alyumkuyma',
+    username: 'alyumkuyma@alyumkuyma.uz',
     password: 'alyum123',
     companyName: "Alyumkuyma Ishlab Chiqarish",
     contactPerson: "G'olib Sharipov",

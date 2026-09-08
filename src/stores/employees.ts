@@ -8,6 +8,8 @@ export type PermissionKey =
   | 'products.xomashyo'
   | 'models'
   | 'warehouses'
+  | 'customers'
+  | 'repairs'
   | 'suppliers'
   | 'employees'
   | 'logs'
@@ -19,6 +21,8 @@ export const permissionMeta: Record<PermissionKey, string> = {
   'products.xomashyo': 'permission.productsXomashyo',
   models: 'permission.models',
   warehouses: 'permission.warehouses',
+  customers: 'permission.customers',
+  repairs: 'permission.repairs',
   suppliers: 'permission.suppliers',
   employees: 'permission.employees',
   logs: 'permission.logs',
@@ -45,7 +49,7 @@ function id() {
 
 const seed: Omit<Employee, 'id'>[] = [
   {
-    username: 'admin',
+    username: 'admin@nammotors.uz',
     password: 'admin123',
     fullName: 'Administrator',
     role: 'Bosh administrator',
@@ -54,16 +58,16 @@ const seed: Omit<Employee, 'id'>[] = [
     active: true,
   },
   {
-    username: 'ombor',
+    username: 'ombor@nammotors.uz',
     password: 'ombor123',
     fullName: 'Ombor mudiri',
     role: 'Ombor mudiri',
-    permissions: ['products.tayyor', 'products.yarim', 'products.xomashyo', 'warehouses', 'models', 'suppliers'],
+    permissions: ['products.tayyor', 'products.yarim', 'products.xomashyo', 'warehouses', 'models', 'suppliers', 'customers'],
     warehouse: 'Ombor-1',
     active: true,
   },
   {
-    username: 'ishchi',
+    username: 'ishchi@nammotors.uz',
     password: 'ishchi123',
     fullName: 'Ishlab chiqarish ishchisi',
     role: 'Ishlab chiqarish ishchisi',
@@ -72,7 +76,7 @@ const seed: Omit<Employee, 'id'>[] = [
     active: true,
   },
   {
-    username: 'dilnoza',
+    username: 'dilnoza@nammotors.uz',
     password: 'dilnoza123',
     fullName: 'Dilnoza Yusupova',
     role: 'Buxgalter',
@@ -81,7 +85,7 @@ const seed: Omit<Employee, 'id'>[] = [
     active: true,
   },
   {
-    username: 'sardor',
+    username: 'sardor@nammotors.uz',
     password: 'sardor123',
     fullName: "Sardor To'rayev",
     role: 'Ombor-2 mudiri',
@@ -90,7 +94,7 @@ const seed: Omit<Employee, 'id'>[] = [
     active: true,
   },
   {
-    username: 'gulnora',
+    username: 'gulnora@nammotors.uz',
     password: 'gulnora123',
     fullName: 'Gulnora Rashidova',
     role: 'Sex-2 texnologi',
@@ -99,13 +103,22 @@ const seed: Omit<Employee, 'id'>[] = [
     active: true,
   },
   {
-    username: 'jasur',
+    username: 'jasur@nammotors.uz',
     password: 'jasur123',
     fullName: 'Jasur Ergashev',
     role: 'Sotuv menejeri',
-    permissions: ['products.tayyor', 'suppliers'],
+    permissions: ['products.tayyor', 'suppliers', 'customers'],
     warehouse: 'Filial-1',
     active: false,
+  },
+  {
+    username: 'usta@nammotors.uz',
+    password: 'usta123',
+    fullName: "Rustam Ta'shimov",
+    role: "Ta'mirlash ustasi",
+    permissions: ['repairs'],
+    warehouse: '',
+    active: true,
   },
 ]
 

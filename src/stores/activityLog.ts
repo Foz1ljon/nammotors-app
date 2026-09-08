@@ -44,7 +44,7 @@ function daysAgo(days: number, hour: number, minute: number) {
 const seed: Omit<LogEntry, 'id'>[] = [
   {
     timestamp: daysAgo(6, 9, 15),
-    username: 'admin',
+    username: 'admin@nammotors.uz',
     userFullName: 'Administrator',
     action: 'added',
     productCode: 'TM-101',
@@ -54,7 +54,7 @@ const seed: Omit<LogEntry, 'id'>[] = [
   },
   {
     timestamp: daysAgo(6, 9, 40),
-    username: 'admin',
+    username: 'admin@nammotors.uz',
     userFullName: 'Administrator',
     action: 'added',
     productCode: 'XM-301',
@@ -64,7 +64,7 @@ const seed: Omit<LogEntry, 'id'>[] = [
   },
   {
     timestamp: daysAgo(5, 11, 5),
-    username: 'ombor',
+    username: 'ombor@nammotors.uz',
     userFullName: 'Ombor mudiri',
     action: 'sold',
     productCode: 'TM-105',
@@ -74,7 +74,7 @@ const seed: Omit<LogEntry, 'id'>[] = [
   },
   {
     timestamp: daysAgo(5, 14, 20),
-    username: 'ishchi',
+    username: 'ishchi@nammotors.uz',
     userFullName: 'Ishlab chiqarish ishchisi',
     action: 'updated',
     productCode: 'YT-202',
@@ -83,7 +83,7 @@ const seed: Omit<LogEntry, 'id'>[] = [
   },
   {
     timestamp: daysAgo(4, 10, 0),
-    username: 'ombor',
+    username: 'ombor@nammotors.uz',
     userFullName: 'Ombor mudiri',
     action: 'transferred',
     productCode: 'XM-303',
@@ -95,7 +95,7 @@ const seed: Omit<LogEntry, 'id'>[] = [
   },
   {
     timestamp: daysAgo(4, 16, 45),
-    username: 'admin',
+    username: 'admin@nammotors.uz',
     userFullName: 'Administrator',
     action: 'sold',
     productCode: 'TM-102',
@@ -105,7 +105,7 @@ const seed: Omit<LogEntry, 'id'>[] = [
   },
   {
     timestamp: daysAgo(3, 9, 30),
-    username: 'ishchi',
+    username: 'ishchi@nammotors.uz',
     userFullName: 'Ishlab chiqarish ishchisi',
     action: 'added',
     productCode: 'YT-205',
@@ -115,7 +115,7 @@ const seed: Omit<LogEntry, 'id'>[] = [
   },
   {
     timestamp: daysAgo(3, 13, 10),
-    username: 'ombor',
+    username: 'ombor@nammotors.uz',
     userFullName: 'Ombor mudiri',
     action: 'sold',
     productCode: 'XM-305',
@@ -125,7 +125,7 @@ const seed: Omit<LogEntry, 'id'>[] = [
   },
   {
     timestamp: daysAgo(2, 8, 50),
-    username: 'admin',
+    username: 'admin@nammotors.uz',
     userFullName: 'Administrator',
     action: 'deleted',
     productCode: 'TM-107',
@@ -134,7 +134,7 @@ const seed: Omit<LogEntry, 'id'>[] = [
   },
   {
     timestamp: daysAgo(2, 15, 5),
-    username: 'ombor',
+    username: 'ombor@nammotors.uz',
     userFullName: 'Ombor mudiri',
     action: 'transferred',
     productCode: 'TM-106',
@@ -146,7 +146,7 @@ const seed: Omit<LogEntry, 'id'>[] = [
   },
   {
     timestamp: daysAgo(1, 10, 25),
-    username: 'ishchi',
+    username: 'ishchi@nammotors.uz',
     userFullName: 'Ishlab chiqarish ishchisi',
     action: 'updated',
     productCode: 'YT-201',
@@ -155,7 +155,7 @@ const seed: Omit<LogEntry, 'id'>[] = [
   },
   {
     timestamp: daysAgo(1, 17, 40),
-    username: 'admin',
+    username: 'admin@nammotors.uz',
     userFullName: 'Administrator',
     action: 'sold',
     productCode: 'TM-104',
@@ -165,7 +165,7 @@ const seed: Omit<LogEntry, 'id'>[] = [
   },
   {
     timestamp: daysAgo(0, 9, 5),
-    username: 'ombor',
+    username: 'ombor@nammotors.uz',
     userFullName: 'Ombor mudiri',
     action: 'added',
     productCode: 'XM-306',
@@ -175,7 +175,7 @@ const seed: Omit<LogEntry, 'id'>[] = [
   },
   {
     timestamp: daysAgo(0, 11, 30),
-    username: 'admin',
+    username: 'admin@nammotors.uz',
     userFullName: 'Administrator',
     action: 'sold',
     productCode: 'TM-103',
@@ -185,7 +185,7 @@ const seed: Omit<LogEntry, 'id'>[] = [
   },
   {
     timestamp: daysAgo(6, 12, 40),
-    username: 'sardor',
+    username: 'sardor@nammotors.uz',
     userFullName: "Sardor To'rayev",
     action: 'added',
     productCode: 'TM-107',
@@ -195,7 +195,7 @@ const seed: Omit<LogEntry, 'id'>[] = [
   },
   {
     timestamp: daysAgo(5, 9, 50),
-    username: 'gulnora',
+    username: 'gulnora@nammotors.uz',
     userFullName: 'Gulnora Rashidova',
     action: 'added',
     productCode: 'YT-208',
@@ -205,7 +205,7 @@ const seed: Omit<LogEntry, 'id'>[] = [
   },
   {
     timestamp: daysAgo(3, 16, 15),
-    username: 'dilnoza',
+    username: 'dilnoza@nammotors.uz',
     userFullName: 'Dilnoza Yusupova',
     action: 'sold',
     productCode: 'TM-111',
@@ -215,7 +215,7 @@ const seed: Omit<LogEntry, 'id'>[] = [
   },
   {
     timestamp: daysAgo(1, 14, 5),
-    username: 'sardor',
+    username: 'sardor@nammotors.uz',
     userFullName: "Sardor To'rayev",
     action: 'transferred',
     productCode: 'XM-308',

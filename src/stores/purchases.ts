@@ -41,7 +41,7 @@ const seed: Omit<Purchase, 'id'>[] = [
     price: 14200,
     quantity: 500,
     total: 7100000,
-    employeeUsername: 'admin',
+    employeeUsername: 'admin@nammotors.uz',
     employeeFullName: 'Administrator',
   },
   {
@@ -54,7 +54,7 @@ const seed: Omit<Purchase, 'id'>[] = [
     price: 12500,
     quantity: 300,
     total: 3750000,
-    employeeUsername: 'ombor',
+    employeeUsername: 'ombor@nammotors.uz',
     employeeFullName: 'Ombor mudiri',
   },
   {
@@ -67,7 +67,7 @@ const seed: Omit<Purchase, 'id'>[] = [
     price: 66000,
     quantity: 40,
     total: 2640000,
-    employeeUsername: 'admin',
+    employeeUsername: 'admin@nammotors.uz',
     employeeFullName: 'Administrator',
   },
 ]

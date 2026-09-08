@@ -23,14 +23,17 @@
     "write-excel-file": "^4.1.1"
   },
   "devDependencies": {
+    "@iconify-json/ph": "^1.2.2",
     "@tsconfig/node24": "^24.0.4",
     "@types/node": "^24.13.3",
     "@vitejs/plugin-vue": "^6.0.8",
     "@vue/tsconfig": "^0.9.1",
     "npm-run-all2": "^9.0.2",
     "typescript": "~6.0.0",
+    "unplugin-icons": "^23.0.1",
     "unplugin-vue-components": "^32.1.0",
     "vite": "^8.1.5",
+    "vite-plugin-pwa": "^1.3.0",
     "vite-plugin-vue-devtools": "^8.1.5",
     "vue-tsc": "^3.3.7"
   },

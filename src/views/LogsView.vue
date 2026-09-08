@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { SearchOutlined } from '@ant-design/icons-vue'
+import IconSearch from '~icons/ph/magnifying-glass-duotone'
 import { useActivityLogStore, actionMeta, type LogAction } from '@/stores/activityLog'
 import { categoryMeta, type ProductCategory } from '@/stores/products'
 
@@ -59,7 +59,7 @@ function fmtDate(iso: string) {
         </div>
         <div class="toolbar-actions">
           <a-input v-model:value="search" :placeholder="t('logs.searchPlaceholder')" allow-clear class="search-input">
-            <template #prefix><SearchOutlined style="color: rgba(0,0,0,0.3)" /></template>
+            <template #prefix><IconSearch style="color: rgba(0,0,0,0.3)" /></template>
           </a-input>
           <a-select v-model:value="actionFilter" :options="actionOptions" style="width: 170px" />
           <a-select v-model:value="categoryFilter" :options="categoryOptions" style="width: 190px" />
@@ -85,6 +85,7 @@ function fmtDate(iso: string) {
               <span class="product-code">
                 {{ record.productCode }}
                 <template v-if="record.action === 'transferred'">— {{ record.fromWarehouse }} → {{ record.toWarehouse }}</template>
+                <template v-else-if="record.note">— {{ record.note }}</template>
               </span>
             </div>
           </template>

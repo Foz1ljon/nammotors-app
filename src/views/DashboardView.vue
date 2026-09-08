@@ -2,12 +2,10 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
-import {
-  CheckCircleOutlined,
-  DeploymentUnitOutlined,
-  GoldOutlined,
-  WarningOutlined,
-} from '@ant-design/icons-vue'
+import IconWarning from '~icons/ph/warning-duotone'
+import IconTayyor from '~icons/ph/check-circle-duotone'
+import IconYarim from '~icons/ph/gear-six-duotone'
+import IconXomashyo from '~icons/ph/cube-duotone'
 import { useProductsStore, categoryMeta, type ProductCategory } from '@/stores/products'
 import { useAuthStore } from '@/stores/auth'
 import type { PermissionKey } from '@/stores/employees'
@@ -21,7 +19,7 @@ const allCards = [
   {
     key: 'tayyor' as ProductCategory,
     label: categoryMeta.tayyor.label,
-    icon: CheckCircleOutlined,
+    icon: IconTayyor,
     color: '#2F9E44',
     bg: 'rgba(47, 158, 68, 0.14)',
     route: 'products-tayyor',
@@ -30,7 +28,7 @@ const allCards = [
   {
     key: 'yarim' as ProductCategory,
     label: categoryMeta.yarim.label,
-    icon: DeploymentUnitOutlined,
+    icon: IconYarim,
     color: '#0E5C97',
     bg: 'rgba(14, 92, 151, 0.14)',
     route: 'products-yarim',
@@ -39,7 +37,7 @@ const allCards = [
   {
     key: 'xomashyo' as ProductCategory,
     label: categoryMeta.xomashyo.label,
-    icon: GoldOutlined,
+    icon: IconXomashyo,
     color: '#F2971D',
     bg: 'rgba(242, 151, 29, 0.16)',
     route: 'products-xomashyo',
@@ -105,6 +103,21 @@ const statusBreakdown = computed(() => {
     { key: 'tugagan', label: 'status.tugagan', color: '#E0483E', count: counts.tugagan, pct: (counts.tugagan / total) * 100 },
   ]
 })
+
+const DONUT_RADIUS = 54
+const DONUT_CIRCUMFERENCE = 2 * Math.PI * DONUT_RADIUS
+
+const donutSegments = computed(() => {
+  let offset = 0
+  return statusBreakdown.value
+    .filter((s) => s.count > 0)
+    .map((s) => {
+      const dash = (s.pct / 100) * DONUT_CIRCUMFERENCE
+      const segment = { key: s.key, color: s.color, dasharray: `${dash} ${DONUT_CIRCUMFERENCE - dash}`, dashoffset: -offset }
+      offset += dash
+      return segment
+    })
+})
 </script>
 
 <template>
@@ -142,9 +155,10 @@ const statusBreakdown = computed(() => {
                 <span class="bar-label">{{ t(c.label) }}</span>
                 <span class="bar-value">{{ fmtCompact(c.value) }} {{ t('common.som') }}</span>
               </div>
-              <div class="bar-track">
-                <div class="bar-fill" :style="{ width: barWidthPct(c.value) + '%', background: c.color }" />
-              </div>
+              <svg viewBox="0 0 100 10" preserveAspectRatio="none" class="bar-svg">
+                <rect x="0" y="0" width="100" height="10" rx="5" class="bar-track-rect" />
+                <rect x="0" y="0" :width="barWidthPct(c.value)" height="10" rx="5" :fill="c.color" class="bar-fill-rect" />
+              </svg>
             </div>
           </div>
           <a-empty v-else :description="t('dashboard.noPermission')" />
@@ -154,20 +168,34 @@ const statusBreakdown = computed(() => {
       <a-col :xs="24" :lg="10">
         <a-card :bordered="false" class="chart-card">
           <template #title>{{ t('dashboard.statusChartTitle') }}</template>
-          <div class="stacked-bar">
-            <div
-              v-for="s in statusBreakdown"
-              v-show="s.count > 0"
-              :key="s.key"
-              class="stacked-segment"
-              :style="{ width: s.pct + '%', background: s.color }"
-            />
-          </div>
-          <div class="status-legend">
-            <div v-for="s in statusBreakdown" :key="s.key" class="legend-item">
-              <span class="legend-dot" :style="{ background: s.color }" />
-              <span class="legend-label">{{ t(s.label) }}</span>
-              <span class="legend-count">{{ s.count }} {{ t('common.ta') }}</span>
+          <div class="donut-row">
+            <svg viewBox="0 0 120 120" class="donut-svg">
+              <circle cx="60" cy="60" r="54" fill="none" class="donut-track" stroke-width="14" />
+              <circle
+                v-for="seg in donutSegments"
+                :key="seg.key"
+                cx="60"
+                cy="60"
+                r="54"
+                fill="none"
+                :stroke="seg.color"
+                stroke-width="14"
+                :stroke-dasharray="seg.dasharray"
+                :stroke-dashoffset="seg.dashoffset"
+                stroke-linecap="round"
+                transform="rotate(-90 60 60)"
+                class="donut-segment"
+              />
+              <text x="60" y="56" text-anchor="middle" class="donut-center-value">{{ fmt(visibleTotals.count) }}</text>
+              <text x="60" y="72" text-anchor="middle" class="donut-center-label">{{ t('dashboard.positionsSuffix') }}</text>
+            </svg>
+
+            <div class="status-legend">
+              <div v-for="s in statusBreakdown" :key="s.key" class="legend-item">
+                <span class="legend-dot" :style="{ background: s.color }" />
+                <span class="legend-label">{{ t(s.label) }}</span>
+                <span class="legend-count">{{ s.count }} {{ t('common.ta') }}</span>
+              </div>
             </div>
           </div>
         </a-card>
@@ -176,7 +204,7 @@ const statusBreakdown = computed(() => {
 
     <a-card :bordered="false" class="low-stock-card" style="margin-top: 16px">
       <template #title>
-        <span><WarningOutlined style="color: #f2971d; margin-right: 8px" />{{ t('dashboard.lowStockTableTitle') }}</span>
+        <span><IconWarning style="color: #f2971d; margin-right: 8px" />{{ t('dashboard.lowStockTableTitle') }}</span>
       </template>
 
       <a-table
@@ -214,13 +242,13 @@ const statusBreakdown = computed(() => {
 }
 
 .stat-icon {
-  width: 38px;
-  height: 38px;
-  border-radius: 9px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: 22px;
   margin-bottom: 10px;
 }
 
@@ -289,38 +317,58 @@ const statusBreakdown = computed(() => {
   white-space: nowrap;
 }
 
-.bar-track {
+.bar-svg {
+  width: 100%;
   height: 10px;
-  border-radius: 6px;
-  background: var(--color-track);
-  overflow: hidden;
+  display: block;
 }
 
-.bar-fill {
-  height: 100%;
-  border-radius: 6px;
+.bar-track-rect {
+  fill: var(--color-track);
+}
+
+.bar-fill-rect {
   transition: width 0.5s ease;
 }
 
-.stacked-bar {
+.donut-row {
   display: flex;
-  height: 14px;
-  border-radius: 7px;
-  overflow: hidden;
-  background: var(--color-track);
-  gap: 2px;
+  align-items: center;
+  gap: 28px;
+  flex-wrap: wrap;
 }
 
-.stacked-segment {
-  height: 100%;
-  transition: width 0.5s ease;
+.donut-svg {
+  width: 140px;
+  height: 140px;
+  flex: 0 0 auto;
+}
+
+.donut-track {
+  stroke: var(--color-track);
+}
+
+.donut-segment {
+  transition: stroke-dasharray 0.5s ease;
+}
+
+.donut-center-value {
+  font-size: 20px;
+  font-weight: 700;
+  fill: var(--color-text);
+}
+
+.donut-center-label {
+  font-size: 9px;
+  fill: var(--color-text-muted);
 }
 
 .status-legend {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  margin-top: 16px;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  min-width: 140px;
 }
 
 .legend-item {

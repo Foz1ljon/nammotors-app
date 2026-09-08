@@ -55,6 +55,18 @@ const router = createRouter({
           meta: { titleKey: 'sidebar.warehouses', permission: 'warehouses' as PermissionKey },
         },
         {
+          path: 'mijozlar',
+          name: 'customers',
+          component: () => import('@/views/CustomersView.vue'),
+          meta: { titleKey: 'sidebar.customers', permission: 'customers' as PermissionKey },
+        },
+        {
+          path: 'tamirlash',
+          name: 'repairs',
+          component: () => import('@/views/RepairsView.vue'),
+          meta: { titleKey: 'sidebar.repairs', permission: 'repairs' as PermissionKey },
+        },
+        {
           path: 'yetkazib-beruvchilar',
           name: 'suppliers',
           component: () => import('@/views/SuppliersView.vue'),

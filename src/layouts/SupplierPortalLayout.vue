@@ -1,10 +1,18 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
-import { LogoutOutlined, BulbOutlined, BulbFilled, TranslationOutlined, UserOutlined } from '@ant-design/icons-vue'
+import IconUser from '~icons/ph/user-circle-duotone'
+import IconSun from '~icons/ph/sun-duotone'
+import IconMoon from '~icons/ph/moon-duotone'
+import IconFullscreen from '~icons/ph/corners-out-duotone'
+import IconFullscreenExit from '~icons/ph/arrows-in-duotone'
+import IconGlobe from '~icons/ph/globe-duotone'
+import IconDoor from '~icons/ph/sign-out-duotone'
 import { useAuthStore } from '@/stores/auth'
 import { useThemeStore } from '@/stores/theme'
 import { useLocaleStore } from '@/stores/locale'
+import { useIsMobile } from '@/composables/useIsMobile'
+import { useFullscreen } from '@/composables/useFullscreen'
 import type { MenuInfo } from 'ant-design-vue/es/menu/src/interface'
 
 const { t } = useI18n()
@@ -12,6 +20,8 @@ const auth = useAuthStore()
 const themeStore = useThemeStore()
 const localeStore = useLocaleStore()
 const router = useRouter()
+const isMobile = useIsMobile()
+const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()
 
 function handleLocaleClick({ key }: MenuInfo) {
   localeStore.setLocale(key as 'latin' | 'cyrillic')
@@ -37,7 +47,7 @@ function handleLogout() {
       <div class="header-right">
         <a-dropdown trigger="click">
           <button type="button" class="icon-btn">
-            <TranslationOutlined class="header-icon" />
+            <IconGlobe class="header-icon" />
           </button>
           <template #overlay>
             <a-menu @click="handleLocaleClick">
@@ -47,16 +57,22 @@ function handleLogout() {
           </template>
         </a-dropdown>
 
+        <a-tooltip v-if="!isMobile" :title="isFullscreen ? t('header.exitFullscreen') : t('header.fullscreen')">
+          <button type="button" class="icon-btn" @click="toggleFullscreen">
+            <component :is="isFullscreen ? IconFullscreenExit : IconFullscreen" class="header-icon" />
+          </button>
+        </a-tooltip>
+
         <a-tooltip :title="themeStore.mode === 'dark' ? t('theme.light') : t('theme.dark')">
           <a-switch :checked="themeStore.mode === 'dark'" class="theme-switch" @change="themeStore.toggle()">
-            <template #checkedChildren><BulbFilled /></template>
-            <template #unCheckedChildren><BulbOutlined /></template>
+            <template #checkedChildren><IconMoon /></template>
+            <template #unCheckedChildren><IconSun /></template>
           </a-switch>
         </a-tooltip>
 
         <div class="user-chip">
           <a-avatar style="background-color: #0e5c97">
-            <template #icon><UserOutlined /></template>
+            <template #icon><IconUser /></template>
           </a-avatar>
           <div class="user-meta">
             <div class="user-name">{{ auth.supplierUser?.companyName }}</div>
@@ -65,14 +81,18 @@ function handleLogout() {
 
         <a-tooltip :title="t('header.logout')">
           <button type="button" class="icon-btn" @click="handleLogout">
-            <LogoutOutlined class="header-icon" />
+            <IconDoor class="header-icon" />
           </button>
         </a-tooltip>
       </div>
     </a-layout-header>
 
     <a-layout-content class="portal-content">
-      <router-view />
+      <router-view v-slot="{ Component }">
+        <transition name="page-fade" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
     </a-layout-content>
   </a-layout>
 </template>
@@ -132,7 +152,7 @@ function handleLogout() {
 }
 
 .header-icon {
-  font-size: 17px;
+  font-size: 19px;
   color: var(--color-text-secondary);
   cursor: pointer;
 }
@@ -166,6 +186,16 @@ function handleLogout() {
   background: #0e5c97;
 }
 
+.theme-switch :deep(.ant-switch-inner-checked),
+.theme-switch :deep(.ant-switch-inner-unchecked) {
+  display: flex;
+  align-items: center;
+}
+
+.theme-switch :deep(svg) {
+  display: block;
+}
+
 .user-chip {
   display: flex;
   align-items: center;
@@ -184,6 +214,21 @@ function handleLogout() {
 
 .portal-content {
   padding: 24px;
+}
+
+.page-fade-enter-active,
+.page-fade-leave-active {
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.page-fade-enter-from {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.page-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
 }
 
 @media (max-width: 768px) {

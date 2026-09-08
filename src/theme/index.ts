@@ -12,7 +12,7 @@ export const brand = {
   success: '#2F9E44',
   warning: '#F2971D',
   error: '#E0483E',
-  bg: '#F4F7FA',
+  bg: '#E7EDF4',
   bgDark: '#0B1520',
   surfaceDark: '#121D2B',
 }

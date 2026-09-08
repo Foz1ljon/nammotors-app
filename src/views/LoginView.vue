@@ -2,21 +2,19 @@
 import { reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter, useRoute } from 'vue-router'
-import {
-  UserOutlined,
-  LockOutlined,
-  CheckCircleOutlined,
-  DeploymentUnitOutlined,
-  GoldOutlined,
-  BulbOutlined,
-  BulbFilled,
-  TranslationOutlined,
-  CrownOutlined,
-  ShopOutlined,
-  ToolOutlined,
-  ShoppingOutlined,
-  ThunderboltFilled,
-} from '@ant-design/icons-vue'
+import IconUser from '~icons/ph/user-duotone'
+import IconLock from '~icons/ph/lock-key-duotone'
+import IconSun from '~icons/ph/sun-duotone'
+import IconMoon from '~icons/ph/moon-duotone'
+import IconThunder from '~icons/ph/lightning-fill'
+import IconGlobe from '~icons/ph/globe-duotone'
+import IconTayyor from '~icons/ph/check-circle-duotone'
+import IconYarim from '~icons/ph/gear-six-duotone'
+import IconXomashyo from '~icons/ph/cube-duotone'
+import IconCrown from '~icons/ph/crown-duotone'
+import IconWarehouse from '~icons/ph/warehouse-duotone'
+import IconWrench from '~icons/ph/wrench-duotone'
+import IconTruck from '~icons/ph/truck-duotone'
 import type { FormInstance } from 'ant-design-vue'
 import type { MenuInfo } from 'ant-design-vue/es/menu/src/interface'
 import { useAuthStore } from '@/stores/auth'
@@ -69,16 +67,16 @@ function fillDemo(username: string, password: string) {
 }
 
 const features = [
-  { icon: CheckCircleOutlined, key: 'auth.featureFinished' },
-  { icon: DeploymentUnitOutlined, key: 'auth.featureSemi' },
-  { icon: GoldOutlined, key: 'auth.featureRaw' },
+  { icon: IconTayyor, key: 'auth.featureFinished' },
+  { icon: IconYarim, key: 'auth.featureSemi' },
+  { icon: IconXomashyo, key: 'auth.featureRaw' },
 ]
 
 const demoAccounts = [
-  { username: 'admin', password: 'admin123', icon: CrownOutlined, roleKey: 'auth.roleAdmin' },
-  { username: 'ombor', password: 'ombor123', icon: ShopOutlined, roleKey: 'auth.roleWarehouse' },
-  { username: 'ishchi', password: 'ishchi123', icon: ToolOutlined, roleKey: 'auth.roleLimited' },
-  { username: 'metallurg', password: 'metall123', icon: ShoppingOutlined, roleKey: 'auth.roleSupplier' },
+  { username: 'admin@nammotors.uz', password: 'admin123', icon: IconCrown, roleKey: 'auth.roleAdmin' },
+  { username: 'ombor@nammotors.uz', password: 'ombor123', icon: IconWarehouse, roleKey: 'auth.roleWarehouse' },
+  { username: 'ishchi@nammotors.uz', password: 'ishchi123', icon: IconWrench, roleKey: 'auth.roleLimited' },
+  { username: 'metallurg@ta-minot.uz', password: 'metall123', icon: IconTruck, roleKey: 'auth.roleSupplier' },
 ]
 </script>
 
@@ -87,7 +85,7 @@ const demoAccounts = [
     <div class="top-actions">
       <a-dropdown trigger="click">
         <button type="button" class="theme-toggle">
-          <TranslationOutlined />
+          <IconGlobe class="globe-icon" />
         </button>
         <template #overlay>
           <a-menu @click="handleLocaleClick">
@@ -99,8 +97,8 @@ const demoAccounts = [
 
       <a-tooltip :title="themeStore.mode === 'dark' ? t('theme.light') : t('theme.dark')">
         <a-switch :checked="themeStore.mode === 'dark'" class="theme-switch" @change="themeStore.toggle()">
-          <template #checkedChildren><BulbFilled /></template>
-          <template #unCheckedChildren><BulbOutlined /></template>
+          <template #checkedChildren><IconMoon /></template>
+          <template #unCheckedChildren><IconSun /></template>
         </a-switch>
       </a-tooltip>
     </div>
@@ -108,7 +106,7 @@ const demoAccounts = [
     <div class="login-panel">
       <div class="brand-panel">
         <div class="brand-dotgrid"></div>
-        <ThunderboltFilled class="brand-watermark" />
+        <IconThunder class="brand-watermark" />
 
         <div class="brand-panel-inner">
           <div class="login-brand">
@@ -154,7 +152,7 @@ const demoAccounts = [
                 autocomplete="username"
                 autofocus
               >
-                <template #prefix><UserOutlined style="color: rgba(0,0,0,0.3)" /></template>
+                <template #prefix><IconUser style="color: rgba(0,0,0,0.3)" /></template>
               </a-input>
             </a-form-item>
             <a-form-item :label="t('auth.passwordLabel')" name="password">
@@ -164,7 +162,7 @@ const demoAccounts = [
                 :placeholder="t('auth.passwordPlaceholder')"
                 autocomplete="current-password"
               >
-                <template #prefix><LockOutlined style="color: rgba(0,0,0,0.3)" /></template>
+                <template #prefix><IconLock style="color: rgba(0,0,0,0.3)" /></template>
               </a-input-password>
             </a-form-item>
 
@@ -230,6 +228,16 @@ const demoAccounts = [
 
 .theme-switch.ant-switch-checked {
   background: #0e5c97;
+}
+
+.theme-switch :deep(.ant-switch-inner-checked),
+.theme-switch :deep(.ant-switch-inner-unchecked) {
+  display: flex;
+  align-items: center;
+}
+
+.theme-switch :deep(svg) {
+  display: block;
 }
 
 .theme-toggle {
@@ -394,6 +402,7 @@ const demoAccounts = [
 .form-panel-inner {
   width: 100%;
   max-width: 340px;
+  min-width: 0;
 }
 
 .login-brand {
@@ -504,6 +513,7 @@ const demoAccounts = [
   cursor: pointer;
   transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
   text-align: left;
+  min-width: 0;
 }
 
 .demo-chip:hover {
@@ -533,8 +543,11 @@ const demoAccounts = [
 }
 
 .demo-chip-text b {
-  font-size: 12px;
+  font-size: 11.5px;
   color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .demo-chip-text span {

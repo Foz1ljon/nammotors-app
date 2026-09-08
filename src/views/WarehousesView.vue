@@ -1,68 +1,78 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons-vue'
-import { message, Modal } from 'ant-design-vue'
-import { useWarehousesStore, type Warehouse } from '@/stores/warehouses'
-import { useProductsStore } from '@/stores/products'
+  import { ref } from "vue";
+  import { useI18n } from "vue-i18n";
+  import IconPlus from "~icons/ph/plus-duotone";
+  import IconEdit from "~icons/ph/pencil-simple-duotone";
+  import IconDelete from "~icons/ph/trash-duotone";
+  import { message, Modal } from "ant-design-vue";
+  import { useWarehousesStore, type Warehouse } from "@/stores/warehouses";
+  import { useProductsStore } from "@/stores/products";
+  import { useIsMobile } from "@/composables/useIsMobile";
+  import TableActions, { type RowAction } from "@/components/TableActions.vue";
 
-const { t } = useI18n()
-const store = useWarehousesStore()
-const products = useProductsStore()
+  const { t } = useI18n();
+  const store = useWarehousesStore();
+  const products = useProductsStore();
+  const compactActions = useIsMobile(1300);
 
-const modalOpen = ref(false)
-const editingId = ref<string | null>(null)
-const name = ref('')
+  const editDeleteActions: RowAction[] = [
+    { key: "edit", label: t("common.edit"), icon: IconEdit },
+    { key: "delete", label: t("common.deleteAction"), icon: IconDelete, danger: true },
+  ];
 
-function openAdd() {
-  editingId.value = null
-  name.value = ''
-  modalOpen.value = true
-}
+  const modalOpen = ref(false);
+  const editingId = ref<string | null>(null);
+  const name = ref("");
 
-function openEdit(record: Warehouse) {
-  editingId.value = record.id
-  name.value = record.name
-  modalOpen.value = true
-}
-
-function handleOk() {
-  if (!name.value.trim()) {
-    message.error(t('warehouses.nameRequired'))
-    return
+  function openAdd() {
+    editingId.value = null;
+    name.value = "";
+    modalOpen.value = true;
   }
-  if (editingId.value) {
-    store.updateWarehouse(editingId.value, name.value)
-    message.success(t('warehouses.updated'))
-  } else {
-    store.addWarehouse(name.value)
-    message.success(t('warehouses.added'))
-  }
-  modalOpen.value = false
-}
 
-function usageCount(warehouseName: string) {
-  return products.items.filter((p) => p.warehouse === warehouseName).length
-}
-
-function handleDelete(record: Warehouse) {
-  const count = usageCount(record.name)
-  if (count > 0) {
-    message.warning(t('warehouses.inUse', { n: count }))
-    return
+  function openEdit(record: Warehouse) {
+    editingId.value = record.id;
+    name.value = record.name;
+    modalOpen.value = true;
   }
-  Modal.confirm({
-    title: t('warehouses.deleteTitle'),
-    content: t('warehouses.deleteContent', { name: record.name }),
-    okText: t('common.deleteAction'),
-    okType: 'danger',
-    cancelText: t('common.cancel'),
-    onOk() {
-      store.removeWarehouse(record.id)
-      message.success(t('warehouses.deleted'))
-    },
-  })
-}
+
+  function handleOk() {
+    if (!name.value.trim()) {
+      message.error(t("warehouses.nameRequired"));
+      return;
+    }
+    if (editingId.value) {
+      store.updateWarehouse(editingId.value, name.value);
+      message.success(t("warehouses.updated"));
+    } else {
+      store.addWarehouse(name.value);
+      message.success(t("warehouses.added"));
+    }
+    modalOpen.value = false;
+  }
+
+  function usageCount(warehouseName: string) {
+    return products.items.filter((p) => p.warehouse === warehouseName).length;
+  }
+
+  function handleDelete(record: Warehouse) {
+    const count = usageCount(record.name);
+    if (count > 0) {
+      message.warning(t("warehouses.inUse", { n: count }));
+      return;
+    }
+    Modal.confirm({
+      title: t("warehouses.deleteTitle"),
+      content: t("warehouses.deleteContent", { name: record.name }),
+      okText: t("common.deleteAction"),
+      okType: "danger",
+      cancelText: t("common.cancel"),
+      onOk() {
+        store.removeWarehouse(record.id);
+        message.success(t("warehouses.deleted"));
+      },
+    });
+  }
 </script>
 
 <template>
@@ -70,44 +80,31 @@ function handleDelete(record: Warehouse) {
     <a-card :bordered="false" class="toolbar-card">
       <div class="toolbar">
         <div>
-          <div class="toolbar-title">{{ t('warehouses.title') }}</div>
-          <div class="toolbar-sub">{{ t('warehouses.subtitle', { n: store.items.length }) }}</div>
+          <div class="toolbar-title">{{ t("warehouses.title") }}</div>
+          <div class="toolbar-sub">{{ t("warehouses.subtitle", { n: store.items.length }) }}</div>
         </div>
-        <a-button type="primary" @click="openAdd">
-          <template #icon><PlusOutlined /></template>
-          {{ t('warehouses.add') }}
+        <a-button class="flex! justify-center! items-center!" type="primary" @click="openAdd">
+          <template #icon><IconPlus /></template>
+          {{ t("warehouses.add") }}
         </a-button>
       </div>
     </a-card>
 
     <a-card :bordered="false" style="margin-top: 16px">
-      <a-table :data-source="store.items" row-key="id" size="middle" :pagination="{ pageSize: 10 }">
+      <a-table :data-source="store.items" row-key="id" size="middle" :pagination="{ pageSize: 10 }" :scroll="{ x: 480 }">
         <a-table-column :title="t('warehouses.colName')" data-index="name" />
         <a-table-column :title="t('warehouses.colUsage')">
-          <template #default="{ record }">{{ usageCount(record.name) }} {{ t('warehouses.usageSuffix') }}</template>
+          <template #default="{ record }">{{ usageCount(record.name) }} {{ t("warehouses.usageSuffix") }}</template>
         </a-table-column>
-        <a-table-column :title="t('products.colActions')" :width="100" fixed="right">
+        <a-table-column :title="t('products.colActions')" :width="compactActions ? 70 : 100" fixed="right">
           <template #default="{ record }">
-            <a-space>
-              <a-button type="text" size="small" @click="openEdit(record)">
-                <template #icon><EditOutlined /></template>
-              </a-button>
-              <a-button type="text" size="small" danger @click="handleDelete(record)">
-                <template #icon><DeleteOutlined /></template>
-              </a-button>
-            </a-space>
+            <TableActions :actions="editDeleteActions" :compact="compactActions" @action="(key) => (key === 'edit' ? openEdit(record) : handleDelete(record))" />
           </template>
         </a-table-column>
       </a-table>
     </a-card>
 
-    <a-modal
-      v-model:open="modalOpen"
-      :title="editingId ? t('warehouses.editTitle') : t('warehouses.addTitle')"
-      :ok-text="t('common.save')"
-      :cancel-text="t('common.cancel')"
-      @ok="handleOk"
-    >
+    <a-modal v-model:open="modalOpen" :title="editingId ? t('warehouses.editTitle') : t('warehouses.addTitle')" :ok-text="t('common.save')" :cancel-text="t('common.cancel')" @ok="handleOk">
       <a-form layout="vertical">
         <a-form-item :label="t('warehouses.nameLabel')">
           <a-input v-model:value="name" :placeholder="t('warehouses.namePlaceholder')" />
@@ -118,26 +115,26 @@ function handleDelete(record: Warehouse) {
 </template>
 
 <style scoped>
-.toolbar-card :deep(.ant-card-body) {
-  padding: 18px 20px;
-}
+  .toolbar-card :deep(.ant-card-body) {
+    padding: 18px 20px;
+  }
 
-.toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-}
+  .toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
 
-.toolbar-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--color-text);
-}
+  .toolbar-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-text);
+  }
 
-.toolbar-sub {
-  font-size: 12px;
-  color: var(--color-text-muted);
-}
+  .toolbar-sub {
+    font-size: 12px;
+    color: var(--color-text-muted);
+  }
 </style>

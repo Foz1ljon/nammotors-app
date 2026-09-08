@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons-vue'
+import IconPlus from '~icons/ph/plus-duotone'
+import IconEdit from '~icons/ph/pencil-simple-duotone'
+import IconDelete from '~icons/ph/trash-duotone'
 import { message, Modal } from 'ant-design-vue'
 import { useSupplierProductsStore, type SupplierProduct } from '@/stores/supplierProducts'
 import { usePurchasesStore } from '@/stores/purchases'
@@ -98,7 +100,7 @@ function handleDelete(record: SupplierProduct) {
               <div class="toolbar-sub">{{ t('supplierPortal.subtitle', { n: myProducts.length }) }}</div>
             </div>
             <a-button type="primary" @click="openAdd">
-              <template #icon><PlusOutlined /></template>
+              <template #icon><IconPlus /></template>
               {{ t('supplierPortal.add') }}
             </a-button>
           </div>
@@ -118,10 +120,10 @@ function handleDelete(record: SupplierProduct) {
               <template #default="{ record }">
                 <a-space>
                   <a-button type="text" size="small" @click="openEdit(record)">
-                    <template #icon><EditOutlined /></template>
+                    <template #icon><IconEdit /></template>
                   </a-button>
                   <a-button type="text" size="small" danger @click="handleDelete(record)">
-                    <template #icon><DeleteOutlined /></template>
+                    <template #icon><IconDelete /></template>
                   </a-button>
                 </a-space>
               </template>
