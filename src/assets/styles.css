@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+
+  --color-bg: #f4f7fa;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f8fafc;
+  --color-border: #eef1f4;
+  --color-track: #eef2f6;
+  --color-text: #0a2a43;
+  --color-text-secondary: #5b6b78;
+  --color-text-muted: #8a97a3;
+  --color-text-faint: #b7c0c8;
+  --color-shadow: rgba(10, 42, 67, 0.05);
+  --color-shadow-2: rgba(10, 42, 67, 0.04);
+  --color-shadow-strong: rgba(10, 42, 67, 0.12);
+  --color-scrollbar: rgba(10, 42, 67, 0.18);
+  --color-scrollbar-hover: rgba(10, 42, 67, 0.32);
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --color-bg: #0b1520;
+  --color-surface: #121d2b;
+  --color-surface-alt: #17233a;
+  --color-border: #223449;
+  --color-track: #1c2a3a;
+  --color-text: #eef2f6;
+  --color-text-secondary: #a7b4c0;
+  --color-text-muted: #7c8a99;
+  --color-text-faint: #55677a;
+  --color-shadow: rgba(0, 0, 0, 0.28);
+  --color-shadow-2: rgba(0, 0, 0, 0.2);
+  --color-shadow-strong: rgba(0, 0, 0, 0.45);
+  --color-scrollbar: rgba(238, 242, 246, 0.14);
+  --color-scrollbar-hover: rgba(238, 242, 246, 0.26);
+}
+
+html, body, #app {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+/* Modern elevation for flat (bordered=false) cards used across the app */
+.ant-card {
+  box-shadow: 0 1px 2px var(--color-shadow), 0 2px 10px var(--color-shadow-2);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.ant-card.ant-card-hoverable:hover {
+  box-shadow: 0 8px 24px var(--color-shadow-strong);
+  transform: translateY(-2px);
+}
+
+.ant-table-wrapper {
+  overflow-x: auto;
+}
+
+/* Slimmer, modern scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-scrollbar);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-scrollbar-hover);
+}
+
+/* Responsive modals: keep dialogs comfortably inside small viewports */
+@media (max-width: 600px) {
+  .ant-modal {
+    max-width: calc(100vw - 24px) !important;
+    margin: 12px auto !important;
+    top: 12px !important;
+    padding-bottom: 0 !important;
+  }
+}
+
+/* Stack two-column form rows on very small screens for easier input */
+@media (max-width: 480px) {
+  .ant-modal .ant-col-12 {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+}
