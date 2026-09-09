@@ -173,7 +173,7 @@
 
           <a-dropdown>
             <div class="user-chip">
-              <a-avatar style="background-color: #0e5c97">
+              <a-avatar class="flex! items-center! justify-center!" style="background-color: #0e5c97">
                 <template #icon><IconUser /></template>
               </a-avatar>
               <div class="user-meta">
@@ -271,7 +271,6 @@
     color: var(--color-text-secondary);
     cursor: pointer;
   }
-
 
   .icon-btn {
     width: 36px;

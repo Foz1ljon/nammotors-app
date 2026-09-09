@@ -11,7 +11,8 @@
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:5174/src/router/index.ts)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:5174/src/layouts/AppLayout.vue)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:5174/src/views/LoginView.vue)",
-      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:5174/src/stores/auth.ts)"
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:5174/src/stores/auth.ts)",
+      "Bash(xargs -I{} echo {})"
     ]
   }
 }

@@ -417,7 +417,7 @@
         <a-table-column :title="t('products.colImage')" :width="64">
           <template #default="{ record }">
             <a-avatar v-if="record.image" shape="square" :size="40" :src="record.image" />
-            <a-avatar v-else shape="square" :size="40" class="no-image">
+            <a-avatar v-else shape="square" :size="40" class="no-image flex! justify-center! items-center!">
               <template #icon><IconImage /></template>
             </a-avatar>
           </template>
@@ -558,7 +558,7 @@
       <div v-if="viewingRecord" class="view-details">
         <div class="view-header">
           <a-avatar v-if="viewingRecord.image" shape="square" :size="72" :src="viewingRecord.image" />
-          <a-avatar v-else shape="square" :size="72" class="no-image">
+          <a-avatar v-else shape="square" :size="72" class="no-image flex! items-center! justify-center!">
             <template #icon><IconImage /></template>
           </a-avatar>
           <div>
