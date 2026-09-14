@@ -12,11 +12,20 @@ function id() {
   return `WH${String(nextId++).padStart(3, '0')}`
 }
 
-const seedNames = ['Ombor-1', 'Ombor-2', 'Ombor-3', 'Ombor-4', 'Sex-1', 'Sex-2', 'Sex-3', 'Filial-1']
+const seedNames = ['Ombor-1', 'Ombor-2', 'Ombor-3', 'Ombor-4', 'Sex-1', 'Sex-2', 'Sex-3', 'Filial-1', 'Astatka Sklad']
 
 export const useWarehousesStore = defineStore('warehouses', () => {
   const items = ref<Warehouse[]>(loadPersisted('warehouses', seedNames.map((name) => ({ id: id(), name }))))
   nextId = computeNextId(items.value, 'WH')
+
+  // Backfills warehouses added to `seedNames` after a browser already persisted
+  // an older list (e.g. 'Astatka Sklad'), without touching existing entries.
+  for (const name of seedNames) {
+    if (!items.value.some((w) => w.name.toLowerCase() === name.toLowerCase())) {
+      items.value.push({ id: id(), name })
+    }
+  }
+
   persist('warehouses', items)
 
   function addWarehouse(name: string): Warehouse {

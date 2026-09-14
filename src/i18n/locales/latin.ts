@@ -407,6 +407,11 @@ export default {
     installDescription: "Ilovani qurilmangizga o'rnating va uni xuddi desktop dastur kabi tezkor, internetga kam bog'liq holda ishlating.",
     installLater: 'Keyinroq',
     installNow: "O'rnatish",
+    installGotIt: 'Tushunarli',
+    installIosStep1: "Pastdagi Ulashish (Share) tugmasini bosing",
+    installIosStep2: "Ro'yxatdan \"Bosh ekranga qo'shish\" (Add to Home Screen) ni tanlang",
+    installMacStep1: "Manzil satridagi Ulashish (Share) belgisini bosing",
+    installMacStep2: "\"Dockga qo'shish\" (Add to Dock) ni tanlang",
   },
   supplierPortal: {
     brandSub: 'Yetkazib beruvchi paneli',

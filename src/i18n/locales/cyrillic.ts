@@ -407,6 +407,11 @@ export default {
     installDescription: 'Иловани қурилмангизга ўрнатинг ва уни худди компьютер дастури каби тезкор, интернетга кам боғлиқ ҳолда ишлатинг.',
     installLater: 'Кейинроқ',
     installNow: 'Ўрнатиш',
+    installGotIt: 'Тушунарли',
+    installIosStep1: 'Пастдаги Улашиш (Share) тугмасини босинг',
+    installIosStep2: 'Рўйхатдан "Бош экранга қўшиш" (Add to Home Screen) ни танланг',
+    installMacStep1: 'Манзил сатридаги Улашиш (Share) белгисини босинг',
+    installMacStep2: '"Dockга қўшиш" (Add to Dock) ни танланг',
   },
   supplierPortal: {
     brandSub: 'Етказиб берувчи панели',

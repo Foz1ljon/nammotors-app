@@ -20,9 +20,22 @@ const store = useInstallPromptStore()
       <div class="install-icon"><IconInstall /></div>
       <h3 class="install-title">{{ t('pwa.installTitle') }}</h3>
       <p class="install-desc">{{ t('pwa.installDescription') }}</p>
+
+      <ol v-if="store.platform === 'ios-safari'" class="install-steps">
+        <li>{{ t('pwa.installIosStep1') }}</li>
+        <li>{{ t('pwa.installIosStep2') }}</li>
+      </ol>
+      <ol v-else-if="store.platform === 'mac-safari'" class="install-steps">
+        <li>{{ t('pwa.installMacStep1') }}</li>
+        <li>{{ t('pwa.installMacStep2') }}</li>
+      </ol>
+
       <div class="install-actions">
-        <a-button block @click="store.dismiss()">{{ t('pwa.installLater') }}</a-button>
-        <a-button type="primary" block @click="store.install()">{{ t('pwa.installNow') }}</a-button>
+        <template v-if="store.platform === 'chromium'">
+          <a-button block @click="store.dismiss()">{{ t('pwa.installLater') }}</a-button>
+          <a-button type="primary" block @click="store.install()">{{ t('pwa.installNow') }}</a-button>
+        </template>
+        <a-button v-else type="primary" block @click="store.dismiss()">{{ t('pwa.installGotIt') }}</a-button>
       </div>
     </div>
   </a-modal>
@@ -59,6 +72,15 @@ const store = useInstallPromptStore()
   color: var(--color-text-muted);
   margin: 0 0 20px;
   line-height: 1.5;
+}
+
+.install-steps {
+  text-align: left;
+  font-size: 13px;
+  color: var(--color-text);
+  line-height: 1.6;
+  margin: 0 0 20px;
+  padding-left: 20px;
 }
 
 .install-actions {
