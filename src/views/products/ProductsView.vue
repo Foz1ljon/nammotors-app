@@ -413,7 +413,18 @@
     </a-card>
 
     <a-card :bordered="false" style="margin-top: 16px">
-      <a-table :data-source="items" row-key="id" size="middle" :pagination="{ pageSize: 10 }" :scroll="{ x: 760 }">
+      <a-table
+        :data-source="items"
+        row-key="id"
+        size="middle"
+        :pagination="{
+          defaultPageSize: 20,
+          pageSizeOptions: ['20', '50', '100', '200'],
+          showSizeChanger: true,
+          showTotal: (total: number) => `${total} ${t('products.positionsCount')}`,
+        }"
+        :scroll="{ x: 760 }"
+      >
         <a-table-column :title="t('products.colImage')" :width="64">
           <template #default="{ record }">
             <a-avatar v-if="record.image" shape="square" :size="40" :src="record.image" />
