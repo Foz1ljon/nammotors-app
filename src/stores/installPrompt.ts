@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 
 const DISMISS_KEY = 'nammotors_pwa_install_dismissed'
@@ -30,6 +30,7 @@ export const useInstallPromptStore = defineStore('installPrompt', () => {
   const visible = ref(false)
   const installed = ref(false)
   const platform = ref<InstallPlatform>('chromium')
+  const canPrompt = computed(() => platform.value !== 'chromium' || deferredEvent.value !== null)
 
   function init() {
     if (typeof window === 'undefined') return
@@ -76,5 +77,15 @@ export const useInstallPromptStore = defineStore('installPrompt', () => {
     localStorage.setItem(DISMISS_KEY, '1')
   }
 
-  return { visible, installed, platform, init, install, dismiss }
+  // Re-opens the prompt on demand (e.g. a header button), bypassing the
+  // "already dismissed" flag that only governs the automatic first-visit popup.
+  function promptInstall() {
+    if (platform.value === 'chromium') {
+      void install()
+    } else {
+      visible.value = true
+    }
+  }
+
+  return { visible, installed, platform, canPrompt, init, install, dismiss, promptInstall }
 })

@@ -68,6 +68,8 @@ export default {
     lowStock: 'Кам қолди',
     fullscreen: 'Тўлиқ экран',
     exitFullscreen: 'Тўлиқ экрандан чиқиш',
+    hardRefresh: 'Кешни тозалаб янгилаш',
+    install: 'Иловани ўрнатиш',
   },
   status: {
     yetarli: 'Етарли',

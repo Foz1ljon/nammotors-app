@@ -68,6 +68,8 @@ export default {
     lowStock: 'Kam qoldi',
     fullscreen: "To'liq ekran",
     exitFullscreen: "To'liq ekrandan chiqish",
+    hardRefresh: "Keshni tozalab yangilash",
+    install: "Ilovani o'rnatish",
   },
   status: {
     yetarli: 'Yetarli',

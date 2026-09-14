@@ -15,9 +15,12 @@
   import IconDoor from "~icons/ph/sign-out-duotone";
   import IconCross from "~icons/ph/x-circle-duotone";
   import IconWarning from "~icons/ph/warning-duotone";
+  import IconRefresh from "~icons/ph/arrow-clockwise-duotone";
+  import IconInstall from "~icons/ph/download-simple-duotone";
   import { useAuthStore } from "@/stores/auth";
   import { useThemeStore } from "@/stores/theme";
   import { useLocaleStore } from "@/stores/locale";
+  import { useInstallPromptStore } from "@/stores/installPrompt";
   import { useProductsStore, type Product, type ProductCategory } from "@/stores/products";
   import type { PermissionKey } from "@/stores/employees";
   import { useIsMobile } from "@/composables/useIsMobile";
@@ -36,7 +39,25 @@
   const themeStore = useThemeStore();
   const localeStore = useLocaleStore();
   const productsStore = useProductsStore();
+  const installPromptStore = useInstallPromptStore();
   const { isFullscreen, toggle: toggleFullscreen } = useFullscreen();
+  const refreshing = ref(false);
+
+  async function handleHardRefresh() {
+    refreshing.value = true;
+    try {
+      if ("serviceWorker" in navigator) {
+        const regs = await navigator.serviceWorker.getRegistrations();
+        await Promise.all(regs.map((r) => r.unregister()));
+      }
+      if ("caches" in window) {
+        const keys = await caches.keys();
+        await Promise.all(keys.map((k) => caches.delete(k)));
+      }
+    } finally {
+      window.location.reload();
+    }
+  }
 
   const selectedKeys = computed(() => [route.name as string]);
 
@@ -129,6 +150,18 @@
               </a-menu>
             </template>
           </a-dropdown>
+
+          <a-tooltip :title="t('header.hardRefresh')">
+            <button type="button" class="icon-btn" :class="{ 'icon-btn-spinning': refreshing }" @click="handleHardRefresh">
+              <IconRefresh class="header-icon" />
+            </button>
+          </a-tooltip>
+
+          <a-tooltip v-if="!installPromptStore.installed && installPromptStore.canPrompt" :title="t('header.install')">
+            <button type="button" class="icon-btn" @click="installPromptStore.promptInstall()">
+              <IconInstall class="header-icon" />
+            </button>
+          </a-tooltip>
 
           <a-tooltip v-if="!isMobile" :title="isFullscreen ? t('header.exitFullscreen') : t('header.fullscreen')">
             <button type="button" class="icon-btn" @click="toggleFullscreen">
@@ -291,6 +324,16 @@
 
   .icon-btn:hover .header-icon {
     color: var(--color-primary, #0e5c97);
+  }
+
+  .icon-btn-spinning .header-icon {
+    animation: icon-spin 0.8s linear infinite;
+  }
+
+  @keyframes icon-spin {
+    to {
+      transform: rotate(360deg);
+    }
   }
 
   .theme-switch {
