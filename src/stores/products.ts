@@ -345,9 +345,19 @@ const seed: Omit<Product, 'id'>[] = [
   { code: 'KR-057', name: 'АИР355М4', image: '', model: 'АИР', kvt: 315, rpm: 1500, category: 'yarim', unit: 'dona', quantity: 18, minStock: 3, price: 0, warehouse: 'Astatka Sklad', updatedAt: '2026-06-29' },
 ]
 
-// Bumping this forces browsers with stale persisted data (e.g. the old mock
-// seed) to pick up the current `seed` array instead of ignoring it.
-const SEED_VERSION = '2026-06-29-astatka-sklad'
+// Derived from the seed contents (not hand-maintained) so any future edit to
+// `seed` automatically forces browsers with stale persisted data to pick up
+// the new list, instead of silently keeping whatever was cached before.
+function hashSeed(value: unknown): string {
+  const json = JSON.stringify(value)
+  let hash = 0
+  for (let i = 0; i < json.length; i++) {
+    hash = (Math.imul(31, hash) + json.charCodeAt(i)) | 0
+  }
+  return hash.toString(36)
+}
+
+const SEED_VERSION = hashSeed(seed)
 const SEED_VERSION_KEY = 'nammotors_products_seed_version'
 
 export const useProductsStore = defineStore('products', () => {
