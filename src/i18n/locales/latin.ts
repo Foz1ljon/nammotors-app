@@ -70,6 +70,7 @@ export default {
     exitFullscreen: "To'liq ekrandan chiqish",
     hardRefresh: "Keshni tozalab yangilash",
     install: "Ilovani o'rnatish",
+    installNotReady: "Brauzeringiz hali o'rnatishni taklif qilmadi. Sahifani qayta yuklab ko'ring yoki brauzer manzil satridagi o'rnatish belgisidan foydalaning.",
   },
   status: {
     yetarli: 'Yetarli',

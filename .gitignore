@@ -40,3 +40,8 @@ __screenshots__/
 
 # unplugin-vue-components
 src/components.d.ts
+
+# Raw inventory source files (Excel/CSV) — not part of the app, kept local only
+*.xlsx
+*.csv
+docs.html

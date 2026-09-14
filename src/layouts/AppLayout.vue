@@ -2,6 +2,7 @@
   import { computed, ref, watch } from "vue";
   import { useI18n } from "vue-i18n";
   import { useRoute, useRouter } from "vue-router";
+  import { message } from "ant-design-vue";
   import IconMenuFold from "~icons/ph/caret-line-left-duotone";
   import IconMenuUnfold from "~icons/ph/caret-line-right-duotone";
   import IconMenu from "~icons/ph/list-duotone";
@@ -57,6 +58,14 @@
     } finally {
       window.location.reload();
     }
+  }
+
+  function handleInstallClick() {
+    if (installPromptStore.platform === "chromium" && !installPromptStore.canPrompt) {
+      message.info(t("header.installNotReady"));
+      return;
+    }
+    installPromptStore.promptInstall();
   }
 
   const selectedKeys = computed(() => [route.name as string]);
@@ -157,8 +166,8 @@
             </button>
           </a-tooltip>
 
-          <a-tooltip v-if="!installPromptStore.installed && installPromptStore.canPrompt" :title="t('header.install')">
-            <button type="button" class="icon-btn" @click="installPromptStore.promptInstall()">
+          <a-tooltip v-if="!installPromptStore.installed" :title="t('header.install')">
+            <button type="button" class="icon-btn" @click="handleInstallClick">
               <IconInstall class="header-icon" />
             </button>
           </a-tooltip>
