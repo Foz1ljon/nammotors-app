@@ -74,10 +74,13 @@
     store.items
       .filter((p) => p.category === props.category)
       .filter((p) => {
-        const q = search.value.trim().toLowerCase();
+        const q = search.value.trim().toLowerCase().replace(",", ".");
         if (!q) return true;
-        const fields = [p.name, p.code, p.model, p.unit, p.warehouse, p.kvt != null ? String(p.kvt) : "", p.rpm != null ? String(p.rpm) : "", String(p.quantity), String(p.price)];
-        return fields.some((f) => f.toLowerCase().includes(q));
+        const kvtStr = p.kvt != null ? String(p.kvt) : "";
+        const rpmStr = p.rpm != null ? String(p.rpm) : "";
+        const kvtRpm = kvtStr && rpmStr ? `${kvtStr}/${rpmStr}` : "";
+        const fields = [p.name, p.code, p.model, p.unit, p.warehouse, kvtStr, rpmStr, kvtRpm, String(p.quantity), String(p.price)];
+        return fields.some((f) => f.toLowerCase().replace(",", ".").includes(q));
       }),
   );
 
